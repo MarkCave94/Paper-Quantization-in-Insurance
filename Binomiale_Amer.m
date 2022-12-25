@@ -1,13 +1,12 @@
-% %% Binomial Tree approach 
+% American Contract
 
-clear
-clc
-beta_vec=0.4:0.05:1;
 
-for i=1:size(beta_vec,2)
+
+
+
 i_min=0.03;
 i_tec=0.03;
-beta=beta_vec(i);
+beta=0.04;
 r=0.05; 
 C0=100;
 T=4;
@@ -38,9 +37,3 @@ a=reval_rate(1:n);
 b=Q(1:n);
 c=a*b';
 prezzo_binomiale(i)= C0*exp(-r*T)*(1+c)^(T);
-
-end
-
-
-
-
