@@ -1,12 +1,13 @@
 % American Contract
 
 
+beta_vec=0.4:0.05:1;
 
-
+for g=1:size(beta_vec,2)
 
 i_min=0.03;
 i_tec=0.03;
-beta=0.04;
+beta=beta_vec(g);
 r=0.05; 
 C0=100;
 T=4;
@@ -36,4 +37,21 @@ n=sum(reval_rate>s_min);
 a=reval_rate(1:n);
 b=Q(1:n);
 c=a*b';
-prezzo_binomiale(i)= C0*exp(-r*T)*(1+c)^(T);
+prezzo_binomiale_eur= C0*exp(-r*T)*(1+c)^(T);
+
+surrender_start(T)=C0*(1+c)^(T);
+
+for t=T-1:-1:1
+
+c_t=C0*exp(-r*t)*(1+c)^(t);
+
+surrender_start(t)=max(exp(-r)*surrender_start(t+1),c_t) ; 
+
+
+end
+
+Prezzo_Americano(g,1)=surrender_start(1)-prezzo_binomiale_eur;
+
+surrender_start=zeros(1,T);
+
+end
