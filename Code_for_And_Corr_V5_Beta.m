@@ -84,8 +84,8 @@ CF(J,t) = exp(-r*dt)*CF(J,t+1);
 end
 
 % The American option price = cash flow at period 2 discounted one peroid
-AmerPrice = exp(-r*dt)*mean(CF(:,2));
-surrender(g,1)=AmerPrice-Euro_Contract(g,1);
+AmerPrice(g,1) = exp(-r*dt)*mean(CF(:,2));
+surrender(g,1)=AmerPrice(g,1)-Euro_Contract(g,1);
 
 
 
@@ -123,4 +123,6 @@ surrender(g,1)=AmerPrice-Euro_Contract(g,1);
 % surrender_SVR(g,1)=AmerPrice_SVR-Euro_Contract;
 
 end
-
+%%
+Results=[ AmerPrice Euro_Contract surrender];
+writematrix(Results,'Results_LSMC_Varying_Beta.xls')

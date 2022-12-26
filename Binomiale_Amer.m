@@ -31,7 +31,7 @@ reval_rate(j+1)=max ((   (beta*gamma(j+1))-i_tec    )/(1+i_tec),s_min);
 
 end
 
-n_proof=round(N/2+1-log(1+i_tec/beta)/(2*log(u))); % Dovrebbe essere uguale a riga 65
+n_proof=round(N/2+1-log(1+i_tec/beta)/(2*log(u))); 
 s_min=(i_min-i_tec)/(1+i_tec);
 n=sum(reval_rate>s_min);
 a=reval_rate(1:n);
