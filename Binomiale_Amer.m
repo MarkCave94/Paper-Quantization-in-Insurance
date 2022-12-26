@@ -27,7 +27,7 @@ gamma(j+1)= ((u^(N-j))*d^(j))-1;
 
 Q(j+1)=binopdf(N-j,N,q);
 
-reval_rate(j+1)=(   (beta*gamma(j+1))-i_tec    )/(1+i_tec);
+reval_rate(j+1)=max ((   (beta*gamma(j+1))-i_tec    )/(1+i_tec),s_min);
 
 end
 
@@ -38,10 +38,10 @@ a=reval_rate(1:n);
 b=Q(1:n);
 c=a*b';
 prezzo_binomiale_eur= C0*exp(-r*T)*(1+c)^(T);
+surrender_start=zeros(1,T);
+surrender_start(T+1)=C0*(1+c)^(T);
 
-surrender_start(T)=C0*(1+c)^(T);
-
-for t=T-1:-1:1
+for t=T:-1:1
 
 c_t=C0*exp(-r*t)*(1+c)^(t);
 
@@ -50,7 +50,8 @@ surrender_start(t)=max(exp(-r)*surrender_start(t+1),c_t) ;
 
 end
 
-Prezzo_Americano(g,1)=surrender_start(1)-prezzo_binomiale_eur;
+prezzo_americano(g,1)=surrender_start(1);
+surrender(g,1)=prezzo_americano(g,1)-prezzo_binomiale_eur;
 
 surrender_start=zeros(1,T);
 
