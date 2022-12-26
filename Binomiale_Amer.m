@@ -4,7 +4,7 @@
 beta_vec=0.4:0.05:1;
 
 for g=1:size(beta_vec,2)
-
+s_min=(i_min-i_tec)/(1+i_tec);
 i_min=0.03;
 i_tec=0.03;
 beta=beta_vec(g);
@@ -37,7 +37,7 @@ n=sum(reval_rate>s_min);
 a=reval_rate(1:n);
 b=Q(1:n);
 c=a*b';
-prezzo_binomiale_eur= C0*exp(-r*T)*(1+c)^(T);
+prezzo_binomiale_eur(g,1)= C0*exp(-r*T)*(1+c)^(T);
 surrender_start=zeros(1,T);
 surrender_start(T+1)=C0*(1+c)^(T);
 
@@ -51,8 +51,11 @@ surrender_start(t)=max(exp(-r)*surrender_start(t+1),c_t) ;
 end
 
 prezzo_americano(g,1)=surrender_start(1);
-surrender(g,1)=prezzo_americano(g,1)-prezzo_binomiale_eur;
+surrender(g,1)=prezzo_americano(g,1)-prezzo_binomiale_eur(g,1);
 
 surrender_start=zeros(1,T);
 
 end
+
+results=[prezzo_americano prezzo_binomiale_eur surrender];
+writematrix(results, "Risultati_Alberi_Bino_varying_Beta.xlsx")
