@@ -4,13 +4,14 @@
 beta_vec=0.4:0.05:1;
 
 for g=1:size(beta_vec,2)
-s_min=(i_min-i_tec)/(1+i_tec);
+
 i_min=0.03;
 i_tec=0.03;
+s_min=(i_min-i_tec)/(1+i_tec);
 beta=beta_vec(g);
 r=0.05; 
 C0=100;
-T=4;
+T=10;
 N=50;
 delta=1/N;
 sigma=0.15; 
@@ -58,4 +59,4 @@ surrender_start=zeros(1,T);
 end
 
 results=[prezzo_americano prezzo_binomiale_eur surrender];
-writematrix(results, "Risultati_Alberi_Bino_varying_Beta.xlsx")
+writematrix(results, "Risultati_Alberi_Bino_varying_Beta_4Y.xlsx")

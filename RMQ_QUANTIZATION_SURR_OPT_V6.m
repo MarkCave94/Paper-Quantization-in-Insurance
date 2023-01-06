@@ -1,6 +1,6 @@
 clear;
 clc;
-toll=10e-8;
+toll=10e-10;
 r=0.05;  
 T=4; 
 S0=100; 
@@ -10,7 +10,7 @@ i_min=0.03;
 i_tec=0.03;
 beta=linspace(0.4,1,13);
 C_0=100;
-NS=250;
+NS=120;
 K=12;
 dt=T/(K*T) ;
 
@@ -79,19 +79,19 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%plot(Quantizzatori_X,Probabilita_successive_X');
+plot(1:48,Quantizzatori_X(:,2:end),Probabilita_successive_X');
 
-
+surf(Quantizzatori_X(:,2:end)',(1:48),Probabilita_successive_X);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTION PRICING Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Strike=100;
-
-euro_call_BS_quant = exp(-r*T)*Probabilita_successive_X(end,:)*max(Quantizzatori_X(:,end)-Strike,0);
-
-[Call] = blsprice(S0, Strike, r, T, sigma);
-
-delta_Vanilla_Option = (Call/euro_call_BS_quant-1) * 100 ;
+% Strike=100;
+% 
+% euro_call_BS_quant = exp(-r*T)*Probabilita_successive_X(end,:)*max(Quantizzatori_X(:,end)-Strike,0);
+% 
+% [Call] = blsprice(S0, Strike, r, T, sigma);
+% 
+% delta_Vanilla_Option = (Call/euro_call_BS_quant-1) * 100 ;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SURRENDER OPTION PRICING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -121,7 +121,7 @@ for i = 1 : NS
 
 end
 
-
+surf(C_t(:,end)',(1:48),Probabilita_successive_X);
 
 
 Euro_Contract(g,1)= exp(-r*T)*Probabilita_successive_X(1,:)*C_t(:,end); 
@@ -150,42 +150,45 @@ end
 
 
 Results=table(Euro_Contract,AmerPrice,surrender);
-writetable(Results,'Results_Quantizzazione_Varying_Beta.xls')
-
-AC_Input_data=importdata("AC_Input_data.xlsx");
-
-AC_AMER=AC_Input_data.data(:,2);
-AC_EU=AC_Input_data.data(:,4);
-AC_SURR=AC_Input_data.data(:,6);
+writetable(Results,'Results_Quantizzazione_Varying_Beta_4Y.xls')
 
 
-Y=[AmerPrice,AC_AMER];
 
-figure
-plot(beta,Y)
-
-title('American Contract varying Beta')
-xlabel('Beta')
-ylabel('American Contract')
-legend('RMQ','A&C')
-
-
-Y=[Euro_Contract,AC_EU];
-
-figure
-plot(beta,Y)
-
-title('European Contract varying Beta')
-xlabel('Beta')
-ylabel('European Contract')
-legend('RMQ','A&C')
-
-Y=[surrender,AC_SURR];
-
-figure
-plot(beta,Y)
-
-title('Surrender Option varying Beta')
-xlabel('Beta')
-ylabel('Surrender Option')
-legend('RMQ','A&C')
+%%
+% AC_Input_data=importdata("AC_Input_data.xlsx");
+% 
+% AC_AMER=AC_Input_data.data(:,2);
+% AC_EU=AC_Input_data.data(:,4);
+% AC_SURR=AC_Input_data.data(:,6);
+% 
+% 
+% Y=[AmerPrice,AC_AMER];
+% 
+% figure
+% plot(beta,Y)
+% 
+% title('American Contract varying Beta')
+% xlabel('Beta')
+% ylabel('American Contract')
+% legend('RMQ','A&C')
+% 
+% 
+% Y=[Euro_Contract,AC_EU];
+% 
+% figure
+% plot(beta,Y)
+% 
+% title('European Contract varying Beta')
+% xlabel('Beta')
+% ylabel('European Contract')
+% legend('RMQ','A&C')
+% 
+% Y=[surrender,AC_SURR];
+% 
+% figure
+% plot(beta,Y)
+% 
+% title('Surrender Option varying Beta')
+% xlabel('Beta')
+% ylabel('Surrender Option')
+% legend('RMQ','A&C')
