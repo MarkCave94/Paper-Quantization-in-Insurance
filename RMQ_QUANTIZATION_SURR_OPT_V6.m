@@ -79,9 +79,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-plot(1:48,Quantizzatori_X(:,2:end),Probabilita_successive_X');
+% plot(1:48,Quantizzatori_X(:,2:end),Probabilita_successive_X');
 
-surf(Quantizzatori_X(:,2:end)',(1:48),Probabilita_successive_X);
+surf(Quantizzatori_X(:,1:end)',(1:48),Probabilita_successive_X);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTION PRICING Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
